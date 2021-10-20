@@ -7,6 +7,7 @@ class User(TimeStampModel):
     email         = models.CharField(max_length=200, null=True)
     kakao_id      = models.CharField(max_length=200)
     point         = models.DecimalField(max_digits=10, decimal_places=2, default=4560000)
+    profile_image = models.URLField(max_length=500, null=True)
     
     class Meta:
         db_table = "users"
