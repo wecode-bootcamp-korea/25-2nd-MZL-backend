@@ -18,6 +18,7 @@ class FlightSchedule(models.Model):
 
 class Airport(models.Model):
     name = models.CharField(max_length=50)
+    code = models.CharField(max_length=50)
 
     class Meta:
         db_table = 'airports'
@@ -36,14 +37,6 @@ class Airline(models.Model):
     class Meta:
         db_table = 'airlines'
 
-class AirplaneTaxes(models.Model):
-    fuel_surcharge = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    customs_duty   = models.DecimalField(max_digits=10, decimal_places=2, default=8000)
-    ticketing_fee  = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-
-    class Meta:
-        db_table = 'airplane_taxes'
-
 class Passenger(TimeStampModel):
     first_name    = models.CharField(max_length=50)
     last_name     = models.CharField(max_length=50)
@@ -55,16 +48,26 @@ class Passenger(TimeStampModel):
         db_table = "passengers"
 
 class Reservation(models.Model):
-    price            = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    departure_date   = models.DateField()
-    arrival_date     = models.DateField()
-    remain_seat      = models.CharField(max_length=10, null=True)
-    airline_change   = models.CharField(max_length=10)
-    seat_class_id    = models.ForeignKey(SeatClass, on_delete=models.SET_NULL, null=True)
-    flightSchedule   = models.ForeignKey(FlightSchedule, on_delete=models.SET_NULL, null=True)
-    airlinesschedule = models.ForeignKey(AirlinesSchedule, on_delete=models.SET_NULL, null=True)
-    airline          = models.ForeignKey(Airline, on_delete=models.SET_NULL, null=True)
-    passenger        = models.ForeignKey(Passenger, on_delete=models.SET_NULL, null=True)
+    price             = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    departure_date    = models.DateField()
+    arrival_date      = models.DateField()
+    departure_airport = models.CharField(max_length=50)
+    arrival_airport   = models.CharField(max_length=50)
+    remain_seat       = models.CharField(max_length=10, null=True)
+    airline_change    = models.CharField(max_length=10)
+    seat_class        = models.ForeignKey(SeatClass, on_delete=models.SET_NULL, null=True)
+    airlines_schedule = models.ForeignKey(AirlinesSchedule, on_delete=models.SET_NULL, null=True)
+    airline           = models.ForeignKey(Airline, on_delete=models.SET_NULL, null=True)
+    passenger         = models.ForeignKey(Passenger, on_delete=models.SET_NULL, null=True)
 
     class Meta:
         db_table = 'reservations'
+
+class AirplaneTaxes(models.Model):
+    fuel_surcharge = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    customs_duty   = models.DecimalField(max_digits=10, decimal_places=2, default=8000)
+    ticketing_fee  = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    reservation    = models.ForeignKey(Reservation, on_delete=models.SET_NULL, null=True)
+
+    class Meta:
+        db_table = 'airplane_taxes'
