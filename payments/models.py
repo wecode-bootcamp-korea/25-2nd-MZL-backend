@@ -11,3 +11,13 @@ class PayMent(TimeStampModel):
 
     class Meta:
         db_table = "payments"
+
+class Passenger(TimeStampModel):
+    first_name    = models.CharField(max_length=50)
+    last_name     = models.CharField(max_length=50)
+    nationality   = models.CharField(max_length=50)
+    date_of_birth = models.DateField()
+    gender        = models.BooleanField()
+
+    class Meta:
+        db_table = "passengers"
