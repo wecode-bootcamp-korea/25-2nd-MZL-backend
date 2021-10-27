@@ -1,8 +1,4 @@
-from django.urls            import path
-
-from reservations.models    import Reservation
-from reservations.views     import ReservationView
+from django.urls import path
 
 urlpatterns = [
-    path('', ReservationView.as_view()),
 ]
