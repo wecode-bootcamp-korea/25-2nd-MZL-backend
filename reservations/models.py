@@ -27,6 +27,7 @@ class Reservation(models.Model):
     remain_seats   = models.IntegerField(default=0)
     seat_class     = models.CharField(max_length=45)
     flight_price   = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
+    image          = models.URLField(max_length=1000, default="")
 
     class Meta:
         db_table = 'reservations'
