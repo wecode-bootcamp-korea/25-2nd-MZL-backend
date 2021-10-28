@@ -9,7 +9,7 @@ def login_decorator(func):
     def wrapper(self, request, *args, **kwargs):
         try:
             access_token = jwt.decode(request.headers.get('Authorization'), SECRET_KEY, algorithms=ALGORITHM)
-            user         = User.objects.get(kakao_id = access_token['id']).id
+            user         = User.objects.get(kakao_id = access_token['id'])
             request.user = user
 
         except User.DoesNotExist:
